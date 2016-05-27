@@ -19,30 +19,37 @@ import org.json.JSONObject;
 @Path("/login")
 public class LoginService {
     Gson gson=new Gson();
+    Handler hand=new Handler();
    @Path("/{user}/{pass}")
     @GET
     @Produces("application/json")
     public String LoginByUserName(@PathParam("user") String user,@PathParam("pass") String pass)
     {
      String ret="";
-        if(user.equals("aya")&&(pass.equals("aya")))
+        if(hand.login(user,pass))
         {
-            User u=new User("aya","aya");
-            
+           User u=hand.getUser(user,pass);
+          
              ret=gson.toJson(u);
-               return ret;
+           
+              return ret;
         }
         
-        else
+        else if(hand.userExists(user))
         {
-            
+           //username  
        JSONObject obj=new JSONObject();
         obj.append("error", "403");
         return obj.toString();
         }
+        else{
+            //password
+        JSONObject obj=new JSONObject();
+        obj.append("error", "404");
+        return obj.toString();}
               
     }
-     @Path("/{email}/{pass}")
+     @Path("/email/{email}/{pass}")
     @GET
     @Produces("application/json")
     public String LoginByEmail(@PathParam("user") String email,@PathParam("pass") String pass)
@@ -50,9 +57,9 @@ public class LoginService {
         
        
         String ret="";
-        if(email.equals("aya@gmail.com")&&(pass.equals("aya")))
+        if(hand.login(email, pass))
         {
-            User u=new User("aya","aya");
+            User u=new User("aya@gmail.com","aya");
             
              ret=gson.toJson(u);
                return ret;
@@ -63,7 +70,7 @@ public class LoginService {
        JSONObject obj=new JSONObject();
         obj.append("error", "403");
         return obj.toString();
-        }
-              
+        } 
+    
     }
 }
