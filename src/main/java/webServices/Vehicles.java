@@ -12,6 +12,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import org.json.JSONObject;
 
 /**
  *
@@ -52,18 +53,29 @@ public class Vehicles {
       @GET
    @Path("/year/{model}")
       @Produces("application/json")
-    public String getYear(@PathParam("year")String model)
+    public String getYear(@PathParam("model")String model)
     {
         List<Year> lst=handler.getYear(model);
     return null;
     }
      @POST
-   @Path("/vechile/{make}/{model}/{year}/{trim}")
+   @Path("/{make}/{model}/{year}/{trim}")
       @Produces("application/json")
    
     public String addVehicle(@PathParam("make")String make,@PathParam("model")String model,@PathParam("year")String year,@PathParam("trim")String trim)
     {
-        List<Year> lst=handler.addVehicle(make,model,year,trim);
-    return null;
-    }
+       boolean lst=handler.addVehicle(make,model,year,trim);
+   if(lst)
+         {
+         JSONObject obj=new JSONObject();
+              obj.append("msg", "200");
+              return obj.toString();
+         }
+   else{
+   JSONObject obj=new JSONObject();
+              obj.append("msg", "400");
+              return obj.toString();
+   }
+    
+    } 
 }

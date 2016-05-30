@@ -11,6 +11,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import org.json.JSONObject;
+import pojo.User;
 
 /**
  *
@@ -26,10 +27,9 @@ public class LoginService {
     public String LoginByUserName(@PathParam("user") String user,@PathParam("pass") String pass)
     {
      String ret="";
-        if(hand.login(user,pass))
+     User u=hand.login(user,pass);
+        if(u!=null)
         {
-           User u=hand.getUser(user,pass);
-          
              ret=gson.toJson(u);
            
               return ret;
@@ -37,13 +37,13 @@ public class LoginService {
         
         else if(hand.userExists(user))
         {
-           //username  
+           //password  
        JSONObject obj=new JSONObject();
         obj.append("error", "403");
         return obj.toString();
         }
         else{
-            //password
+            //user
         JSONObject obj=new JSONObject();
         obj.append("error", "404");
         return obj.toString();}
@@ -52,16 +52,15 @@ public class LoginService {
      @Path("/email/{email}/{pass}")
     @GET
     @Produces("application/json")
-    public String LoginByEmail(@PathParam("user") String email,@PathParam("pass") String pass)
+    public String LoginByEmail(@PathParam("email") String email,@PathParam("pass") String pass)
     {
         
        
         String ret="";
-        if(hand.login(email, pass))
+         User u=hand.loginByEmail(email,pass);
+        if(u!=null)
         {
-            User u=new User("aya@gmail.com","aya");
-            
-             ret=gson.toJson(u);
+        ret=gson.toJson(u);
                return ret;
         }
         else

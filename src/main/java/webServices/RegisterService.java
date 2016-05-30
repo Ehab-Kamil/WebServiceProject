@@ -10,6 +10,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import org.json.JSONObject;
+import pojo.User;
 
 /**
  *
@@ -23,16 +24,17 @@ public class RegisterService {
     @GET
  @Produces("application/json")
   public String Register(@PathParam("username")String username,@PathParam("email")String email 
-          ,@PathParam("password")String password,@PathParam("firstname")String firstname
-  ,@PathParam("lastname")String lastname,@PathParam("phone")String phone)
+          ,@PathParam("password")String password,@PathParam("firstName")String firstname
+  ,@PathParam("lastName")String lastname,@PathParam("phone")String phone)
   {
   User u=new User();
-  u.setU(username);
-  u.setP(password);
+  u.setUsername(username);
+  u.setPassword(password);
   u.setEmail(email);
-  u.setFname(firstname);
+  u.setFirstName(firstname);
   u.setEmail(email);
-  u.setLname(lastname);
+  u.setLastName(lastname);
+  u.setSuspended(0);
   Handler handler=new Handler();
           int x=handler.register(u);
       switch (x) { 
