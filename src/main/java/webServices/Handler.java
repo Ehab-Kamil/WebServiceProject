@@ -27,7 +27,10 @@ public class Handler {
     }
 
     boolean userExists(String user) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        User u = new User();
+        u.setUsername(user);
+         ArrayList<User> uarr = (ArrayList<User>) uDao.findByExample(u);
+      return uarr.size()>0;
     }
 
     int register(User u) {
