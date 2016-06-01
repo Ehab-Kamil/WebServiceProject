@@ -10,6 +10,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import org.json.JSONObject;
 import pojo.User;
 
@@ -21,10 +22,10 @@ import pojo.User;
 public class LoginService {
     Gson gson=new Gson();
     Handler hand=new Handler();
-   @Path("/{user}/{pass}")
+  // @Path("/{user}/{pass}")
     @GET
     @Produces("application/json")
-    public String LoginByUserName(@PathParam("user") String user,@PathParam("pass") String pass)
+    public String LoginByUserName(@QueryParam("user") String user,@QueryParam("pass") String pass)
     {
      String ret="";
      User u=hand.login(user,pass);
@@ -49,10 +50,10 @@ public class LoginService {
         return obj.toString();}
               
     }
-     @Path("/email/{email}/{pass}")
+     @Path("/email")
     @GET
     @Produces("application/json")
-    public String LoginByEmail(@PathParam("email") String email,@PathParam("pass") String pass)
+    public String LoginByEmail(@QueryParam("email") String email,@QueryParam("pass") String pass)
     {
         
        

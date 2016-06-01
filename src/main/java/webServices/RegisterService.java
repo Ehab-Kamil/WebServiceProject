@@ -10,6 +10,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import org.json.JSONObject;
 import pojo.User;
 
@@ -21,12 +22,12 @@ import pojo.User;
 public class RegisterService {
      
     
-    @Path("/{username}/{email}/{password}/{firstName}/{lastName}/{phone}")
+  
     @GET
  @Produces("application/json")
-  public String Register(@PathParam("username")String username,@PathParam("email")String email 
-          ,@PathParam("password")String password,@PathParam("firstName")String firstname
-  ,@PathParam("lastName")String lastname,@PathParam("phone")String phone)
+  public String Register(@QueryParam("username")String username,@QueryParam("email")String email 
+          ,@QueryParam("password")String password,@QueryParam("firstName")String firstname
+  ,@QueryParam("lastName")String lastname,@QueryParam("phone")String phone)
   {
   User u=new User();
   u.setUsername(username);
