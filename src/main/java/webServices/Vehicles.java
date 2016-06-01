@@ -12,6 +12,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import org.json.JSONObject;
 import pojo.Make;
 import pojo.Model;
@@ -37,36 +38,36 @@ public class Vehicles {
     
     }
     @GET
-   @Path("/models/{make}")
+   @Path("/models")
     @Produces("application/json")
-    public String getModels(@PathParam("make")String make)
+    public String getModels(@QueryParam("make")String make)
     {
         List<Model> lst=handler.getModelByMake(make);
          String x= gson.toJson(lst);
     return x;
     }
     @GET
-   @Path("/trim/{model}/{year}")
+   @Path("/trim")
     @Produces("application/json")
-    public String getTrim(@PathParam("model")String model,@PathParam("year")String year)
+    public String getTrim(@QueryParam("model")String model,@QueryParam("year")String year)
     {
         List<Trim> lst=handler.getTrim(model,year);
         String x=gson.toJson(lst);
     return x;
     }
       @GET
-   @Path("/year/{model}")
+   @Path("/year")
       @Produces("application/json")
-    public String getYear(@PathParam("model")String model)
+    public String getYear(@QueryParam("model")String model)
     {
         List<Year> lst=handler.getYear(model);
     return null;
     }
      @POST
-   @Path("/{make}/{model}/{year}/{trim}")
+ //  @Path("/{make}/{model}/{year}/{trim}")
       @Produces("application/json")
    
-    public String addVehicle(@PathParam("make")String make,@PathParam("model")String model,@PathParam("year")String year,@PathParam("trim")String trim)
+    public String addVehicle(@QueryParam("make")String make,@QueryParam("model")String model,@QueryParam("year")String year,@QueryParam("trim")String trim)
     {
        boolean lst=handler.addVehicle(make,model,year,trim);
    if(lst)
