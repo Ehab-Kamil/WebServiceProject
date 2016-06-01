@@ -47,7 +47,7 @@ public class Vehicles {
     return x;
     }
     @GET
-   @Path("/trim/")
+   @Path("/trim")
     @Produces("application/json")
     public String getTrim(@QueryParam("model")String model,@QueryParam("year")String year)
     {
