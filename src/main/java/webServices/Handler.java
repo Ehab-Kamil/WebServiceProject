@@ -5,36 +5,43 @@
  */
 package webServices;
 
+import dao.ModelDao;
 import dao.UserDao;
 import java.util.ArrayList;
 import java.util.List;
+import pojo.Make;
+import pojo.Model;
+import pojo.Trim;
 import pojo.User;
+import pojo.Year;
 
 /**
  *
  * @author yoka
  */
 public class Handler {
-  UserDao uDao = new UserDao();
+
+    UserDao uDao = new UserDao();
+
     User login(String user, String pass) {
         User u = new User();
         u.setUsername(user);
         u.setPassword(pass);
-      
+
         ArrayList<User> uarr = (ArrayList<User>) uDao.findByExample(u);
-     if (uarr.size()>0)
-     { User u1 = uarr.get(0);
-        return u1;}
-     else{
-     return null;
-     }
+        if (uarr.size() > 0) {
+            User u1 = uarr.get(0);
+            return u1;
+        } else {
+            return null;
+        }
     }
 
     boolean userExists(String user) {
         User u = new User();
         u.setUsername(user);
-         ArrayList<User> uarr = (ArrayList<User>) uDao.findByExample(u);
-      return uarr.size()>0;
+        ArrayList<User> uarr = (ArrayList<User>) uDao.findByExample(u);
+        return uarr.size() > 0;
     }
 
     int register(User u) {
@@ -52,12 +59,15 @@ public class Handler {
         return lst;
     }
 
-    List<Model> getModel(String make) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    List<Model> getModelByMake(String make) {
+        ModelDao modelDao = new ModelDao();
+        List<Model> result = modelDao.getModelsByMake(make);
+        return result;
     }
 
     List<Trim> getTrim(String model, String year) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return null;
+    
     }
 
     List<Year> getYear(String model) {
@@ -72,7 +82,7 @@ public class Handler {
         User u = new User();
         u.setEmail(email);
         u.setPassword(pass);
-   uDao = new UserDao();
+        uDao = new UserDao();
         ArrayList<User> uarr = (ArrayList<User>) uDao.findByExample(u);
         User u1 = uarr.get(0);
         return u1;
@@ -85,8 +95,8 @@ public class Handler {
     boolean emailExists(String email) {
         User u = new User();
         u.setEmail(email);
-         ArrayList<User> uarr = (ArrayList<User>) uDao.findByExample(u);
-      return uarr.size()>0;
+        ArrayList<User> uarr = (ArrayList<User>) uDao.findByExample(u);
+        return uarr.size() > 0;
     }
 
 }

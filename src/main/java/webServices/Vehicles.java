@@ -13,6 +13,10 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import org.json.JSONObject;
+import pojo.Make;
+import pojo.Model;
+import pojo.Trim;
+import pojo.Year;
 
 /**
  *
@@ -37,7 +41,7 @@ public class Vehicles {
     @Produces("application/json")
     public String getModels(@PathParam("make")String make)
     {
-        List<Model> lst=handler.getModel(make);
+        List<Model> lst=handler.getModelByMake(make);
          String x= gson.toJson(lst);
     return x;
     }
