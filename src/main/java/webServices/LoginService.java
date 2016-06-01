@@ -39,13 +39,13 @@ public class LoginService {
         {
            //password  
        JSONObject obj=new JSONObject();
-        obj.append("error", "403");
+        obj.append("error", "invalid password");
         return obj.toString();
         }
         else{
             //user
         JSONObject obj=new JSONObject();
-        obj.append("error", "404");
+        obj.append("error", "invalid user");
         return obj.toString();}
               
     }
@@ -67,7 +67,7 @@ public class LoginService {
         {
             
        JSONObject obj=new JSONObject();
-        obj.append("error", "403");
+        obj.append("error", "invalid login");
         return obj.toString();
         } 
     

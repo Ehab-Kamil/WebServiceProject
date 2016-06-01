@@ -5,6 +5,7 @@
  */
 package webServices;
 
+import com.google.gson.Gson;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -36,30 +37,47 @@ public class RegisterService {
   u.setLastName(lastname);
   u.setSuspended(0);
   Handler handler=new Handler();
-          int x=handler.register(u);
-      switch (x) { 
-         //user is done
-          case 0:
+  /*
+  1.get username
+  2.email
+  */
+
+  if(!handler.userExists(username))
+  {
+      if(!handler.emailExists(email))
+  
+      {  int x=handler.register(u);
+     if(x==0)
          
           {
-              JSONObject obj=new JSONObject();
-              obj.append("msg", "200");
-              return obj.toString();}
+                   User u1=handler.login(username,password);
+                    Gson gson=new Gson();
+        
+             return gson.toJson(u);
+
+          }
+     else{
+      JSONObject obj=new JSONObject();
+              obj.append("msg", "error entering data try again");
+              return obj.toString();
+     }
+      }
           //error in username
-          case 1:
+         else
           {
               JSONObject obj=new JSONObject();
-              obj.append("msg", "403");
+              obj.append("msg", "email exist");
               return obj.toString();
           }  
+  }
           //error in email
-          default:
+         else
           {
               JSONObject obj=new JSONObject();
-              obj.append("error", "404");
+              obj.append("error", "username exist");
               return obj.toString();
           }
       }
           
   }
-}
+

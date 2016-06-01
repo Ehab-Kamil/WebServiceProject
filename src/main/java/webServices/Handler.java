@@ -22,8 +22,12 @@ public class Handler {
         u.setPassword(pass);
       
         ArrayList<User> uarr = (ArrayList<User>) uDao.findByExample(u);
-        User u1 = uarr.get(0);
-        return u1;
+     if (uarr.size()>0)
+     { User u1 = uarr.get(0);
+        return u1;}
+     else{
+     return null;
+     }
     }
 
     boolean userExists(String user) {
@@ -68,10 +72,21 @@ public class Handler {
         User u = new User();
         u.setEmail(email);
         u.setPassword(pass);
-        UserDao uDao = new UserDao();
+   uDao = new UserDao();
         ArrayList<User> uarr = (ArrayList<User>) uDao.findByExample(u);
         User u1 = uarr.get(0);
         return u1;
+    }
+//    String forgetPassword()
+//    {
+//        
+//    }
+
+    boolean emailExists(String email) {
+        User u = new User();
+        u.setEmail(email);
+         ArrayList<User> uarr = (ArrayList<User>) uDao.findByExample(u);
+      return uarr.size()>0;
     }
 
 }
