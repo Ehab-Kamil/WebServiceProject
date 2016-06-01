@@ -5,8 +5,13 @@
  */
 package webServices;
 
+import Exceptions.DataAccessLayerException;
+import dao.MakeDao;
 import dao.ModelDao;
+import dao.TrimDao;
 import dao.UserDao;
+import dao.YearDao;
+import facadePkg.DataLayer;
 import java.util.ArrayList;
 import java.util.List;
 import pojo.Make;
@@ -50,13 +55,10 @@ public class Handler {
     }
 
     List<Make> getMake() {
-        List<Make> lst = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            Make e = new Make();
-            e.setName("make " + i);
-            lst.add(e);
-        }
-        return lst;
+        List<Make> result = new ArrayList<>();
+        MakeDao makeDao = new MakeDao();
+        result = makeDao.findAll();
+        return result;
     }
 
     List<Model> getModelByMake(String make) {
@@ -66,16 +68,33 @@ public class Handler {
     }
 
     List<Trim> getTrim(String model, String year) {
-        return null;
-    
+
+        TrimDao trimDao = new TrimDao();
+        return trimDao.getTrimByYearAndModel(model, year);
+
     }
 
     List<Year> getYear(String model) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        YearDao yearDao = new YearDao();
+        return yearDao.getYearByModel(model);
+        
     }
 
     boolean addVehicle(String make, String model, String year, String trim) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        boolean result = false;
+        try {
+            DataLayer dataLayer = new DataLayer();
+            Make newMake = new Make(make, make);
+            Model newModel = new Model(newMake, model, model);
+            Year newYear = new Year(Integer.parseInt(year));
+            Trim newTrim = new Trim(trim);
+            dataLayer.insertVehicle(newMake, newModel, newYear, newTrim);
+            result = true;
+        } catch (DataAccessLayerException ex) {
+            result = false;
+        }
+        return result;
     }
 
     User loginByEmail(String email, String pass) {
