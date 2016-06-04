@@ -45,6 +45,7 @@ public class RegisterService {
   2.email
                          */
 
+                        
                         if (!handler.userExists(username)) {
                             if (!handler.emailExists(email)) {
                                 int x = handler.register(u);
