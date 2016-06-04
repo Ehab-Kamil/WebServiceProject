@@ -64,13 +64,19 @@ public class LoginService {
         ret=gson.toJson(u);
                return ret;
         }
-        else
+         else if(hand.emailExists(email))
         {
-            
+           //password  
        JSONObject obj=new JSONObject();
-        obj.append("error", "invalid login");
+        obj.append("error", "invalid password");
         return obj.toString();
-        } 
+        }
+        else{
+            //user
+        JSONObject obj=new JSONObject();
+        obj.append("error", "invalid email");
+        return obj.toString();}
+           
     
     }
 }

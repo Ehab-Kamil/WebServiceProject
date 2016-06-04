@@ -103,8 +103,12 @@ public class Handler {
         u.setPassword(pass);
         uDao = new UserDao();
         ArrayList<User> uarr = (ArrayList<User>) uDao.findByExample(u);
-        User u1 = uarr.get(0);
-        return u1;
+         if (uarr.size() > 0) {
+            User u1 = uarr.get(0);
+            return u1;
+        } else {
+            return null;
+        }
     }
 //    String forgetPassword()
 //    {
