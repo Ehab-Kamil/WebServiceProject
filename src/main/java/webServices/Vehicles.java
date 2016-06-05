@@ -5,6 +5,7 @@
  */
 package webServices;
 
+import webServicesHandlers.Handler;
 import com.google.gson.Gson;
 import java.util.List;
 import javax.ws.rs.GET;

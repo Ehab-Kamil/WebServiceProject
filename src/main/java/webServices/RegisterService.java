@@ -5,6 +5,7 @@
  */
 package webServices;
 
+import webServicesHandlers.Handler;
 import com.google.gson.Gson;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
