@@ -7,6 +7,7 @@ package webServices;
 
 import webServicesHandlers.Handler;
 import com.google.gson.Gson;
+import facadePkg.DataLayer;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -72,4 +73,18 @@ public class LoginService {
         }
 
     }
+
+    @Path("/forgetPassword")
+    @GET
+    @Produces("application/json")
+    public String forgetPassword(@QueryParam("email") String email) {
+
+        DataLayer dataLayer = new DataLayer();
+        dataLayer.sendForgetPasswordMail(email);
+
+        JSONObject obj = new JSONObject();
+        obj.append("error", "ay kalam");
+        return obj.toString();
+    }
+
 }
