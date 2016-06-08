@@ -26,62 +26,61 @@ import pojo.Year;
  */
 @Path("/vehicle")
 public class Vehicles {
-    Handler handler=new  Handler();
-    Gson gson=new Gson();
-   @GET
-   @Path("/makes")
-   @Produces("application/json")
-    public String getMakes()
-    {
-        List<Make> lst=handler.getMake();
-       String x= gson.toJson(lst);
+
+    Handler handler = new Handler();
+    Gson gson = new Gson();
+
+    @GET
+    @Path("/makes")
+    @Produces("application/json")
+    public String getMakes() {
+        List<Make> lst = handler.getMake();
+        String x = gson.toJson(lst);
         return x;
-    
+
     }
+
     @GET
-   @Path("/models")
+    @Path("/models")
     @Produces("application/json")
-    public String getModels(@QueryParam("make")String make)
-    {
-        List<Model> lst=handler.getModelByMake(make);
-         String x= gson.toJson(lst);
-    return x;
+    public String getModels(@QueryParam("make") String make) {
+        List<Model> lst = handler.getModelByMake(make);
+        String x = gson.toJson(lst);
+        return x;
     }
+
     @GET
-   @Path("/trim")
+    @Path("/trim")
     @Produces("application/json")
-    public String getTrim(@QueryParam("model")String model,@QueryParam("year")String year)
-    {
-        List<Trim> lst=handler.getTrim(model,year);
-        String x=gson.toJson(lst);
-    return x;
+    public String getTrim(@QueryParam("model") String model, @QueryParam("year") String year) {
+        List<Trim> lst = handler.getTrim(model, year);
+        String x = gson.toJson(lst);
+        return x;
     }
-      @GET
-   @Path("/year")
-      @Produces("application/json")
-    public String getYear(@QueryParam("model")String model)
-    {
-        List<Year> lst=handler.getYear(model);
-    return null;
+
+    @GET
+    @Path("/year")
+    @Produces("application/json")
+    public String getYear(@QueryParam("model") String model) {
+        List<Year> lst = handler.getYear(model);
+        return null;
     }
-     @POST
- //  @Path("/{make}/{model}/{year}/{trim}")
-      @Produces("application/json")
-   
-    public String addVehicle(@QueryParam("make")String make,@QueryParam("model")String model,@QueryParam("year")String year,@QueryParam("trim")String trim)
-    {
-       boolean lst=handler.addVehicle(make,model,year,trim);
-   if(lst)
-         {
-         JSONObject obj=new JSONObject();
-              obj.append("msg", "200");
-              return obj.toString();
-         }
-   else{
-   JSONObject obj=new JSONObject();
-              obj.append("msg", "400");
-              return obj.toString();
-   }
-    
-    } 
+
+    @POST
+    //  @Path("/{make}/{model}/{year}/{trim}")
+    @Produces("application/json")
+
+    public String addVehicle(@QueryParam("make") String make, @QueryParam("model") String model, @QueryParam("year") String year, @QueryParam("trim") String trim) {
+        boolean lst = handler.addVehicle(make, model, year, trim);
+        if (lst) {
+            JSONObject obj = new JSONObject();
+            obj.append("msg", "200");
+            return obj.toString();
+        } else {
+            JSONObject obj = new JSONObject();
+            obj.append("msg", "400");
+            return obj.toString();
+        }
+
+    }
 }

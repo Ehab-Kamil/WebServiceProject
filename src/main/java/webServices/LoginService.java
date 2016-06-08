@@ -21,63 +21,55 @@ import pojo.User;
  */
 @Path("/login")
 public class LoginService {
-    Gson gson=new Gson();
-    Handler hand=new Handler();
-  // @Path("/{user}/{pass}")
+
+    Gson gson = new Gson();
+    Handler hand = new Handler();
+    // @Path("/{user}/{pass}")
+
     @GET
     @Produces("application/json")
-    public String LoginByUserName(@QueryParam("user") String user,@QueryParam("pass") String pass)
-    {
-     String ret="";
-     User u=hand.login(user,pass);
-        if(u!=null)
-        {
-             ret=gson.toJson(u);
-           
-              return ret;
-        }
-        
-        else if(hand.userExists(user))
-        {
-           //password  
-       JSONObject obj=new JSONObject();
-        obj.append("error", "invalid password");
-        return obj.toString();
-        }
-        else{
+    public String LoginByUserName(@QueryParam("user") String user, @QueryParam("pass") String pass) {
+        String ret = "";
+        User u = hand.login(user, pass);
+        if (u != null) {
+            ret = gson.toJson(u);
+
+            return ret;
+        } else if (hand.userExists(user)) {
+            //password  
+            JSONObject obj = new JSONObject();
+            obj.append("error", "invalid password");
+            return obj.toString();
+        } else {
             //user
-        JSONObject obj=new JSONObject();
-        obj.append("error", "invalid user");
-        return obj.toString();}
-              
+            JSONObject obj = new JSONObject();
+            obj.append("error", "invalid user");
+            return obj.toString();
+        }
+
     }
-     @Path("/email")
+
+    @Path("/email")
     @GET
     @Produces("application/json")
-    public String LoginByEmail(@QueryParam("email") String email,@QueryParam("pass") String pass)
-    {
-        
-       
-        String ret="";
-         User u=hand.loginByEmail(email,pass);
-        if(u!=null)
-        {
-        ret=gson.toJson(u);
-               return ret;
-        }
-         else if(hand.emailExists(email))
-        {
-           //password  
-       JSONObject obj=new JSONObject();
-        obj.append("error", "invalid password");
-        return obj.toString();
-        }
-        else{
+    public String LoginByEmail(@QueryParam("email") String email, @QueryParam("pass") String pass) {
+
+        String ret = "";
+        User u = hand.loginByEmail(email, pass);
+        if (u != null) {
+            ret = gson.toJson(u);
+            return ret;
+        } else if (hand.emailExists(email)) {
+            //password  
+            JSONObject obj = new JSONObject();
+            obj.append("error", "invalid password");
+            return obj.toString();
+        } else {
             //user
-        JSONObject obj=new JSONObject();
-        obj.append("error", "invalid email");
-        return obj.toString();}
-           
-    
+            JSONObject obj = new JSONObject();
+            obj.append("error", "invalid email");
+            return obj.toString();
+        }
+
     }
 }
