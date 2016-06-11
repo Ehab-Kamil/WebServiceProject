@@ -10,7 +10,6 @@ import com.google.gson.Gson;
 import facadePkg.DataLayer;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import org.json.JSONObject;
@@ -25,7 +24,8 @@ public class LoginService {
 
     Gson gson = new Gson();
     Handler hand = new Handler();
-    // @Path("/{user}/{pass}")
+    final String errorMessage = "error";
+    final String successMessage = "success";
 
     @GET
     @Produces("application/json")
@@ -36,19 +36,20 @@ public class LoginService {
             ret = gson.toJson(u);
             JSONObject obj = new JSONObject();
             obj.put("result", ret);
-            obj.put("status", "success");
+            obj.put("status", successMessage);
             return obj.toString();
-       
-           
+
         } else if (hand.userExists(user)) {
             //password  
             JSONObject obj = new JSONObject();
-            obj.put("error", "invalid password");
+            obj.put("result", "invalid password");
+            obj.put("status", errorMessage);
             return obj.toString();
         } else {
             //user
             JSONObject obj = new JSONObject();
-            obj.append("error", "invalid user");
+            obj.append("result", "invalid user");
+            obj.put("status", errorMessage);
             return obj.toString();
         }
 
@@ -64,19 +65,21 @@ public class LoginService {
         if (u != null) {
             ret = gson.toJson(u);
             //return ret;
-              JSONObject obj = new JSONObject();
+            JSONObject obj = new JSONObject();
             obj.append("result", ret);
-            obj.append("status", "success");
+            obj.put("status", successMessage);
             return obj.toString();
         } else if (hand.emailExists(email)) {
             //password  
             JSONObject obj = new JSONObject();
-            obj.append("error", "invalid password");
+            obj.append("result", "Invalid password");
+            obj.put("status", errorMessage);
             return obj.toString();
         } else {
             //user
             JSONObject obj = new JSONObject();
-            obj.append("error", "invalid email");
+            obj.append("result", "Invalid email");
+            obj.put("status", errorMessage);
             return obj.toString();
         }
 
@@ -89,7 +92,6 @@ public class LoginService {
 
         DataLayer dataLayer = new DataLayer();
         dataLayer.sendForgetPasswordMail(email);
-
         JSONObject obj = new JSONObject();
         obj.append("error", "ay kalam");
         return obj.toString();
