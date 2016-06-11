@@ -71,24 +71,25 @@ public class ProfilePictureService {
 		}
 
     }
-    //    @Path("/pic")
-//    @POST
-//    public String uploadImage(@FormParam("imgArrag")byte [] imageInByte,@FormParam("userId") int userId)
-//    {
-//      try {
-//          InputStream in = new ByteArrayInputStream(imageInByte);
-//          BufferedImage bImageFromConvert = ImageIO.read(in);
-//          
-//          ImageIO.write(bImageFromConvert, "jpg", new File(
-//                  "/Users/yoka/desktop/uploaded/user"+userId+".jpg"));
-//      } catch (IOException ex) {
-//          //Logger.getLogger(ProfilePictureService.class.getName()).log(Level.SEVERE, null, ex);
-//            JSONObject obj = new JSONObject();
-//            obj.append("error", "upload error");
-//            return obj.toString();
-//      }
-//  JSONObject obj = new JSONObject();
-//            obj.append("msg", "uploaded done");
-//            return obj.toString();
-//    }
+   @Path("/pic")
+   @POST
+   @Consumes(MediaType.MULTIPART_FORM_DATA)
+    public String uploadImage(@FormDataParam("imgArrag")byte [] imageInByte,@FormDataParam("userId") int userId)
+    {
+      try {
+          InputStream in = new ByteArrayInputStream(imageInByte);
+          BufferedImage bImageFromConvert = ImageIO.read(in);
+          
+          ImageIO.write(bImageFromConvert, "jpg", new File(
+                  "/Users/yoka/desktop/uploaded/user"+userId+".jpg"));
+      } catch (IOException ex) {
+          //Logger.getLogger(ProfilePictureService.class.getName()).log(Level.SEVERE, null, ex);
+            JSONObject obj = new JSONObject();
+            obj.append("error", "upload error");
+            return obj.toString();
+      }
+  JSONObject obj = new JSONObject();
+            obj.append("msg", "uploaded done");
+            return obj.toString();
+    }
 }

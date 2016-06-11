@@ -54,9 +54,9 @@ public class RegisterService {
                                     if (x == 0) {
                                         Gson gson = new Gson();
                                         String ret = "";
-                                        ret = gson.toJson(u);
                                         JSONObject obj = new JSONObject();
-                                        obj.put("result", ret);
+                                        JSONObject obj1 = new JSONObject(u);
+                                         obj.put("result", obj1);
                                         obj.put("status", successMessage);
                                         return obj.toString();
                                     } else {
