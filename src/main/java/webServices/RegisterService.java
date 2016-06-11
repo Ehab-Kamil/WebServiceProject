@@ -34,7 +34,7 @@ public class RegisterService {
             if (username.length() > 0) {
                 if (password.length() >= 6) {
                     if (structured(email)) {
-                        if (phone.length() == 11) {
+                      
                             u.setUsername(username);
                             u.setPassword(password);
                             u.setEmail(email);
@@ -79,13 +79,7 @@ public class RegisterService {
                                 obj.put("status", errorMessage);
                                 return obj.toString();
                             }
-                        } else {
-                            //phone is not correct
-                            JSONObject obj = new JSONObject();
-                            obj.put("result", "phone length is not correct");
-                            obj.put("status", errorMessage);
-                            return obj.toString();
-                        }
+                       
                     } else {
                         //email is not well formatted
                         JSONObject obj = new JSONObject();
