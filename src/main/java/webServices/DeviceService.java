@@ -24,50 +24,55 @@ import webServicesHandlers.Handler;
  */
 @Path("/device")
 public class DeviceService {
-Handler h; 
-Gson gson;
+
+    Handler h;
+    Gson gson;
+    final String errorMessage = "error";
+    final String successMessage = "success";
+
     public DeviceService() {
         h = new Handler();
-        gson =new Gson();
+        gson = new Gson();
     }
 
     @POST
     @Produces("application/json")
     public String addDevice(@FormParam("userId") int userId, @FormParam("token") String token) {
-        
+
         if (h.addDevice(userId, token)) {
             JSONObject obj = new JSONObject();
-             obj.append("msg", "200");
-            obj.append("msg", "device is inserted");
+            obj.put("result", token);
+            obj.put("status", successMessage);
             return obj.toString();
         } else {
             JSONObject obj = new JSONObject();
-              obj.append("error", "400");
-            obj.append("error", "device isn't inserted");
+            obj.put("result", "Device wasn't Inserted");
+            obj.put("status", errorMessage);
             return obj.toString();
         }
     }
-    
+
     @GET
-     @Produces("application/json")
-    public String getDevices(@QueryParam("userId") int userId)
-    {
-   List<Device> lst= h.getDeviceByUser(userId);
-     if(lst.size()>0)
-     {
-         List<Device> deviceResult = new ArrayList<>();
+    @Produces("application/json")
+    public String getDevices(@QueryParam("userId") int userId) {
+        List<Device> lst = h.getDeviceByUser(userId);
+        if (lst.size() > 0) {
+            List<Device> deviceResult = new ArrayList<>();
             for (int i = 0; i < lst.size(); i++) {
                 Device d = lst.get(i);
                 d.setUser(null);
                 deviceResult.add(d);
             }
-         String x = gson.toJson(deviceResult);
-
-            return x;
+            JSONObject obj = new JSONObject();
+            JSONObject obj1 = new JSONObject(deviceResult);
+            
+            obj.put("result", obj1);
+            obj.put("status", successMessage);
+            return obj.toString();
         } else {
             JSONObject obj = new JSONObject();
-            obj.append("msg", "400");
-            obj.append("msg", "no devices for this user");
+            obj.put("result", "Couldn't Load Data");
+            obj.put("status", errorMessage);
             return obj.toString();
         }
     }
