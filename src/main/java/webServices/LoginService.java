@@ -48,7 +48,7 @@ public class LoginService {
         } else {
             //user
             JSONObject obj = new JSONObject();
-            obj.append("result", "invalid user");
+            obj.put("result", "invalid user");
             obj.put("status", errorMessage);
             return obj.toString();
         }
@@ -66,13 +66,13 @@ public class LoginService {
             ret = gson.toJson(u);
             //return ret;
             JSONObject obj = new JSONObject();
-            obj.append("result", ret);
+            obj.put("result", ret);
             obj.put("status", successMessage);
             return obj.toString();
         } else if (hand.emailExists(email)) {
             //password  
             JSONObject obj = new JSONObject();
-            obj.append("result", "Invalid password");
+            obj.put("result", "Invalid password");
             obj.put("status", errorMessage);
             return obj.toString();
         } else {
