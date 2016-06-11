@@ -35,15 +35,15 @@ public class LoginService {
         if (u != null) {
             ret = gson.toJson(u);
             JSONObject obj = new JSONObject();
-            obj.append("result", ret);
-            obj.append("status", "success");
+            obj.put("result", ret);
+            obj.put("status", "success");
             return obj.toString();
        
            
         } else if (hand.userExists(user)) {
             //password  
             JSONObject obj = new JSONObject();
-            obj.append("error", "invalid password");
+            obj.put("error", "invalid password");
             return obj.toString();
         } else {
             //user
