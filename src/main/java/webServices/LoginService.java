@@ -79,7 +79,7 @@ public class LoginService {
         } else {
             //user
             JSONObject obj = new JSONObject();
-            obj.append("result", "Invalid email");
+            obj.put("result", "Invalid email");
             obj.put("status", errorMessage);
             return obj.toString();
         }
