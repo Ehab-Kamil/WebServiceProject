@@ -20,6 +20,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.json.JSONObject;
@@ -74,14 +75,16 @@ public class ProfilePictureService {
    @Path("/pic")
    @POST
    @Consumes(MediaType.MULTIPART_FORM_DATA)
-    public String uploadImage(@FormDataParam("imgArrag")byte [] imageInByte,@FormDataParam("userId") int userId)
+   @Produces("application/json")
+    public String uploadImage(@FormDataParam("imgArray")byte [] imageInByte)
+            //,@FormDataParam("userId") int userId)
     {
       try {
           InputStream in = new ByteArrayInputStream(imageInByte);
           BufferedImage bImageFromConvert = ImageIO.read(in);
           
           ImageIO.write(bImageFromConvert, "jpg", new File(
-                  "/Users/yoka/desktop/uploaded/user"+userId+".jpg"));
+                  "/Users/yoka/desktop/uploaded/user.jpg"));
       } catch (IOException ex) {
           //Logger.getLogger(ProfilePictureService.class.getName()).log(Level.SEVERE, null, ex);
             JSONObject obj = new JSONObject();
