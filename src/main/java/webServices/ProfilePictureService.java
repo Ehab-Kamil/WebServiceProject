@@ -8,16 +8,21 @@ package webServices;
 
 import com.sun.jersey.core.header.FormDataContentDisposition;
 import com.sun.jersey.multipart.FormDataParam;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import javax.imageio.ImageIO;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import org.json.JSONObject;
 
 /**
  *
@@ -66,5 +71,24 @@ public class ProfilePictureService {
 		}
 
     }
-    
+        @Path("/pic")
+    @POST
+    public String uploadImage(@FormParam("imgArrag")byte [] imageInByte,@FormParam("userId") int userId)
+    {
+      try {
+          InputStream in = new ByteArrayInputStream(imageInByte);
+          BufferedImage bImageFromConvert = ImageIO.read(in);
+          
+          ImageIO.write(bImageFromConvert, "jpg", new File(
+                  "/Users/yoka/desktop/uploaded/user"+userId+".jpg"));
+      } catch (IOException ex) {
+          //Logger.getLogger(ProfilePictureService.class.getName()).log(Level.SEVERE, null, ex);
+            JSONObject obj = new JSONObject();
+            obj.append("error", "upload error");
+            return obj.toString();
+      }
+  JSONObject obj = new JSONObject();
+            obj.append("msg", "uploaded done");
+            return obj.toString();
+    }
 }
