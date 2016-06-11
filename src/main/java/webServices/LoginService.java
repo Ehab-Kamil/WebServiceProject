@@ -34,8 +34,12 @@ public class LoginService {
         User u = hand.login(user, pass);
         if (u != null) {
             ret = gson.toJson(u);
-
-            return ret;
+            JSONObject obj = new JSONObject();
+            obj.append("result", ret);
+            obj.append("status", "success");
+            return obj.toString();
+       
+           
         } else if (hand.userExists(user)) {
             //password  
             JSONObject obj = new JSONObject();
@@ -59,7 +63,11 @@ public class LoginService {
         User u = hand.loginByEmail(email, pass);
         if (u != null) {
             ret = gson.toJson(u);
-            return ret;
+            //return ret;
+              JSONObject obj = new JSONObject();
+            obj.append("result", ret);
+            obj.append("status", "success");
+            return obj.toString();
         } else if (hand.emailExists(email)) {
             //password  
             JSONObject obj = new JSONObject();
