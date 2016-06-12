@@ -31,9 +31,12 @@ public class LoginService {
     @Produces("application/json")
     public String LoginByUserName(@QueryParam("user") String user, @QueryParam("pass") String pass) {
         String ret = "";
+        System.out.println("entered in login");
         User u = hand.login(user, pass);
         if (u != null) {
             ret = gson.toJson(u);
+            u.setVehicles(null);
+            u.setVehicles_1(null);
             JSONObject obj = new JSONObject();
             JSONObject obj1 = new JSONObject(u);
             obj.put("result", obj1);

@@ -48,7 +48,7 @@ public class Vehicles {
             for (int i = 0; i < lst.size(); i++) {
                 Make mk = lst.get(i);
                 mk.setModels(null);
-                // mk.setServiceProviders(null);
+                mk.setServiceProviders(null);
                 mkresult.add(mk);
             }
             String x = gson.toJson(mkresult);

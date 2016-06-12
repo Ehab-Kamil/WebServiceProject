@@ -5,25 +5,33 @@
  */
 package webServices;
 
-
 import com.sun.jersey.core.header.FormDataContentDisposition;
 import com.sun.jersey.multipart.FormDataParam;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Request;
 import javax.ws.rs.core.Response;
+import javax.xml.bind.DatatypeConverter;
 import org.json.JSONObject;
+import webServicesHandlers.Handler;
 
 /**
  *
@@ -31,68 +39,32 @@ import org.json.JSONObject;
  */
 @Path("/img")
 public class ProfilePictureService {
-  @POST
-  @Path("/upload")
-  @Consumes(MediaType.MULTIPART_FORM_DATA)
-    public Response uploudPP(
-    @FormDataParam("file") InputStream uploadedInputStream,
-@FormDataParam("file") FormDataContentDisposition fileDetail
-    )
-    {
-  String uploadedFileLocation = "./" + fileDetail.getFileName();
 
-		// save it
-		writeToFile(uploadedInputStream, uploadedFileLocation);
+    Handler handler;
 
-		String output = "File uploaded to : " + uploadedFileLocation;
-
-		return Response.status(200).entity(output).build();
-
-	}
-
-	// save uploaded file to new location
-	private void writeToFile(InputStream uploadedInputStream,
-		String uploadedFileLocation) {
-
-		try {
-			OutputStream out = new FileOutputStream(new File(
-					uploadedFileLocation));
-			int read = 0;
-			byte[] bytes = new byte[1024];
-
-			out = new FileOutputStream(new File(uploadedFileLocation));
-			while ((read = uploadedInputStream.read(bytes)) != -1) {
-				out.write(bytes, 0, read);
-			}
-			out.flush();
-			out.close();
-		} catch (IOException e) {
-
-			e.printStackTrace();
-		}
-
+    public ProfilePictureService() {
+        handler = new Handler();
     }
-   @Path("/pic")
-   @POST
-   @Consumes(MediaType.MULTIPART_FORM_DATA)
-   @Produces("application/json")
-    public String uploadImage(@FormDataParam("imgArray")byte [] imageInByte)
-            //,@FormDataParam("userId") int userId)
-    {
-      try {
-          InputStream in = new ByteArrayInputStream(imageInByte);
-          BufferedImage bImageFromConvert = ImageIO.read(in);
-          
-          ImageIO.write(bImageFromConvert, "jpg", new File(
-                  "/Users/yoka/desktop/uploaded/user.jpg"));
-      } catch (IOException ex) {
-          //Logger.getLogger(ProfilePictureService.class.getName()).log(Level.SEVERE, null, ex);
-            JSONObject obj = new JSONObject();
-            obj.append("error", "upload error");
-            return obj.toString();
-      }
-  JSONObject obj = new JSONObject();
-            obj.append("msg", "uploaded done");
-            return obj.toString();
+
+    @POST
+    public String upload(@FormParam("image") String img, @FormParam("userId") int userId, @FormParam("fileExt") String fileExt) {
+        byte[] arr = DatatypeConverter.parseBase64Binary(img);
+        System.out.println("byte >>" + arr.length);
+        JSONObject obj = new JSONObject();
+        obj.put("result", "done");
+        try {
+            writeToFile(arr, fileExt, userId);
+        } catch (IOException ex) {
+            Logger.getLogger(ProfilePictureService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return obj.toString();
+    }
+
+    public void writeToFile(byte[] array, String ext, int userId) throws IOException {
+        String image = "/Users/yoka/desktop/Uploaded/pic" + userId + "." + ext;
+        try (FileOutputStream fileOuputStream = new FileOutputStream(image)) {
+            fileOuputStream.write(array);
+        }
+        handler.insertPictureToUserAccount(image, userId);
     }
 }
