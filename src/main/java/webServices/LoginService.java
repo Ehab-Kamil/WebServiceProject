@@ -5,6 +5,7 @@
  */
 package webServices;
 
+import Utils.*;
 import webServicesHandlers.Handler;
 import com.google.gson.Gson;
 import facadePkg.DataLayer;
@@ -14,6 +15,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import org.json.JSONObject;
 import pojo.User;
+import pojo.Vehicle;
 
 /**
  *
@@ -30,31 +32,20 @@ public class LoginService {
     @GET
     @Produces("application/json")
     public String LoginByUserName(@QueryParam("user") String user, @QueryParam("pass") String pass) {
-        String ret = "";
-        System.out.println("entered in login");
         User u = hand.login(user, pass);
         if (u != null) {
-            ret = gson.toJson(u);
-            u.setVehicles(null);
-            u.setVehicles_1(null);
+            UserDTO udto = JsonConversion.convertUserToUserJson(u);
             JSONObject obj = new JSONObject();
-            JSONObject obj1 = new JSONObject(u);
-            obj.put("result", obj1);
-            obj.put("status", successMessage);
+            JSONObject obj1 = new JSONObject(udto);
+            obj.append("result", obj1);
+            obj.append("status", successMessage);
             return obj.toString();
-
         } else if (hand.userExists(user)) {
             //password  
-            JSONObject obj = new JSONObject();
-            obj.put("result", "invalid password");
-            obj.put("status", errorMessage);
-            return obj.toString();
+            return JsonError.errorJsonObject("invalid password");
         } else {
             //user
-            JSONObject obj = new JSONObject();
-            obj.put("result", "invalid user");
-            obj.put("status", errorMessage);
-            return obj.toString();
+            return JsonError.errorJsonObject("invalid user");
         }
 
     }
@@ -67,26 +58,40 @@ public class LoginService {
         String ret = "";
         User u = hand.loginByEmail(email, pass);
         if (u != null) {
-             JSONObject obj = new JSONObject();
-          JSONObject obj1 = new JSONObject(u);
+            JSONObject obj = new JSONObject();
+            JSONObject obj1 = new JSONObject(u);
             obj.put("result", obj1);
-           
+
             obj.put("status", successMessage);
             return obj.toString();
         } else if (hand.emailExists(email)) {
             //password  
-            JSONObject obj = new JSONObject();
-            obj.put("result", "Invalid password");
-            obj.put("status", errorMessage);
-            return obj.toString();
+            return JsonError.errorJsonObject("invalid password");
         } else {
-            //user
-            JSONObject obj = new JSONObject();
-            obj.put("result", "Invalid email");
-            obj.put("status", errorMessage);
-            return obj.toString();
+            //email
+            return JsonError.errorJsonObject("invalid email");
         }
 
+    }
+
+    @Path("/facebookLogin")
+    @GET
+    @Produces("application/json")
+    public String LoginByFacebook(@QueryParam("email") String email) {
+        User u = hand.loginWithFacebook(email);
+       
+        if (u != null) {
+             u.setPassword(" ");
+            UserDTO udto = JsonConversion.convertUserToUserJson(u);
+            JSONObject obj = new JSONObject();
+            JSONObject obj1 = new JSONObject(udto);
+            obj.append("result", obj1);
+            obj.append("status", successMessage);
+            return obj.toString();
+        }  else {
+            //user
+            return JsonError.errorJsonObject("invalid email");
+        }
     }
 
     @Path("/forgetPassword")

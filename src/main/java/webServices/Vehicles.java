@@ -13,13 +13,14 @@ import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import pojo.Make;
 import pojo.Model;
 import pojo.Trim;
+import pojo.Vehicle;
 import pojo.Year;
 
 /**
@@ -51,11 +52,14 @@ public class Vehicles {
                 mk.setServiceProviders(null);
                 mkresult.add(mk);
             }
-            String x = gson.toJson(mkresult);
-            return x;
+            JSONObject obj1 = new JSONObject(mkresult);
+            JSONObject obj = new JSONObject();
+            obj.append("result", mkresult);
+            obj.append("status", "success");
+            return obj.toString();
         } else {
             JSONObject obj = new JSONObject();
-            obj.append("msg", "400");
+            obj.append("code", "400");
             obj.append("msg", "no supported trims");
             return obj.toString();
         }
@@ -74,12 +78,14 @@ public class Vehicles {
                 model.setVehicleModels(null);
                 mkresult.add(model);
             }
-            String x = gson.toJson(mkresult);
-            //String x = gson.toJson(lst);
-            return x;
+            JSONObject obj1 = new JSONObject(mkresult);
+            JSONObject obj = new JSONObject();
+            obj.append("result", mkresult);
+            obj.append("status", "success");
+            return obj.toString();
         } else {
             JSONObject obj = new JSONObject();
-            obj.append("msg", "400");
+            obj.append("code", "400");
             obj.append("msg", "no supported models");
             return obj.toString();
         }
@@ -97,11 +103,14 @@ public class Vehicles {
                 trim.setVehicleModels(null);
                 trimresult.add(trim);
             }
-            String x = gson.toJson(trimresult);
-            return x;
+            JSONObject obj1 = new JSONObject(trimresult);
+            JSONObject obj = new JSONObject();
+            obj.append("result", trimresult);
+            obj.append("status", "success");
+            return obj.toString();
         } else {
             JSONObject obj = new JSONObject();
-            obj.append("msg", "400");
+            obj.append("code", "400");
             obj.append("msg", "no supported trims");
             return obj.toString();
         }
@@ -119,12 +128,15 @@ public class Vehicles {
                 year.setVehicleModels(null);
                 yearResult.add(year);
             }
-            String x = gson.toJson(yearResult);
+            JSONArray obj1 = new JSONArray(yearResult.toArray());
+            JSONObject obj = new JSONObject();
+            obj.put("result", obj1);
+            obj.put("status", "success");
+            return obj.toString();
 
-            return x;
         } else {
             JSONObject obj = new JSONObject();
-            obj.append("msg", "400");
+            obj.append("code", "400");
             obj.append("msg", "no supported years");
             return obj.toString();
         }
@@ -135,16 +147,50 @@ public class Vehicles {
 
     public String addVehicle(@FormParam("model") String model, @FormParam("year") String year,
             @FormParam("trim") String trim, @FormParam("userId") int uId, @FormParam("carName") String carName, @FormParam("intialOdemeter") int intialOdemeter) {
-        boolean lst = handler.addVehicle(model, year, trim, uId, carName, intialOdemeter);
-        if (lst) {
+        Vehicle v = handler.addVehicle(model, year, trim, uId, carName, intialOdemeter);
+        if (v != null) {
             JSONObject obj = new JSONObject();
-            obj.append("msg", "200");
+            JSONObject obj1 = new JSONObject(v);
+            obj.append("vehicle", obj1);
+            obj.append("status", "success");
             return obj.toString();
         } else {
             JSONObject obj = new JSONObject();
-            obj.append("msg", "400");
+            obj.append("status", "error");
             return obj.toString();
         }
 
+    }
+
+    @GET
+    @Path("/userVehicle")
+    public String getVehicle(@QueryParam("userId") int userId) {
+        List<Vehicle> vehicleList = handler.getVehiclesPerUser(userId);
+        if (vehicleList.size() > 0) {
+            JSONObject obj = new JSONObject();
+            JSONObject obj1 = new JSONObject(vehicleList);
+//    for(Vehicle v:vehicleList)
+//            { System.out.println("v : "+v.getName());}
+//    
+//            obj.append("vehicles", obj1);
+//            obj.append("status", "success");
+//            return obj.toString();
+   List<Vehicle> vehicleResult = new ArrayList<>();
+            for (int i = 0; i < vehicleList.size(); i++) {
+                Vehicle vehicle = vehicleList.get(i);
+               vehicle.setUsers(null);
+               vehicle.setUser(null);
+              vehicle.setTripses(null);
+              vehicle.setTrackingDatas(null);
+              vehicle.setVehicleModel(null);
+                vehicleResult.add(vehicle);
+            }
+return gson.toJson(vehicleResult);
+        } else {
+            JSONObject obj = new JSONObject();
+            obj.append("status", "error");
+            obj.append("msg", "No vehicles are found");
+            return obj.toString();
+        }
     }
 }
