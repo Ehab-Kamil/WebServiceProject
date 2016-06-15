@@ -5,6 +5,7 @@
  */
 package webServices;
 
+import Utils.VehicleDTO;
 import webServicesHandlers.Handler;
 import com.google.gson.Gson;
 import java.util.ArrayList;
@@ -142,15 +143,16 @@ public class Vehicles {
         }
     }
 
-    @POST
+    @GET
     @Produces("application/json")
-
-    public String addVehicle(@FormParam("model") String model, @FormParam("year") String year,
-            @FormParam("trim") String trim, @FormParam("userId") int uId, @FormParam("carName") String carName, @FormParam("intialOdemeter") int intialOdemeter) {
+@Path("/add")
+    public String addVehicle(@QueryParam("model") String model, @QueryParam("year") String year,
+            @QueryParam("trim") String trim, @QueryParam("userId") int uId, @QueryParam("carName") String carName, @QueryParam("intialOdemeter") int intialOdemeter) {
         Vehicle v = handler.addVehicle(model, year, trim, uId, carName, intialOdemeter);
         if (v != null) {
+           VehicleDTO vdto= JsonConversion.convertVehicleToVehicleJson(v,1);
             JSONObject obj = new JSONObject();
-            JSONObject obj1 = new JSONObject(v);
+            JSONObject obj1 = new JSONObject(vdto);
             obj.append("vehicle", obj1);
             obj.append("status", "success");
             return obj.toString();

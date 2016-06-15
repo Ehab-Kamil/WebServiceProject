@@ -113,8 +113,10 @@ public class RegisterService {
             if (!handler.emailExists(email)) {
                 u = handler.register(u);
                 if (u!=null) {
-                    Gson gson = new Gson();
-                    String ret = "";
+                   if(u.getPassword().equalsIgnoreCase("fbp"))
+                   {
+                   u.setPassword("");
+                   }
                     JSONObject obj = new JSONObject();
                     JSONObject obj1 = new JSONObject(u);
                     obj.put("result", obj1);

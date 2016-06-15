@@ -5,6 +5,9 @@
  */
 package Utils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author yoka
@@ -13,7 +16,7 @@ public class TripDTO {
      private Integer id;
      private int coveredMilage;
      private int intialOdemeter;
-
+private List<CoordinatesDTO> coordinates=new ArrayList<>();
     public Integer getId() {
         return id;
     }
@@ -36,5 +39,13 @@ public class TripDTO {
 
     public void setIntialOdemeter(int intialOdemeter) {
         this.intialOdemeter = intialOdemeter;
+    }
+
+    public List<CoordinatesDTO> getCoordinates() {
+        return coordinates;
+    }
+
+    public void setCoordinates(List<CoordinatesDTO> coordinates) {
+        this.coordinates = coordinates;
     }
 }

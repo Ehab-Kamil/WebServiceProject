@@ -10,9 +10,19 @@ package Utils;
  * @author yoka
  */
 public class ModelDTO {
+
     private int id;
     private String name;
     private String niceName;
+    private MakeDTO make;
+
+    public MakeDTO getMake() {
+        return make;
+    }
+
+    public void setMake(MakeDTO make) {
+        this.make = make;
+    }
 
     public int getId() {
         return id;

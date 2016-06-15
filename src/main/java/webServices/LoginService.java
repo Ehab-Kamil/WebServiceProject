@@ -58,8 +58,9 @@ public class LoginService {
         String ret = "";
         User u = hand.loginByEmail(email, pass);
         if (u != null) {
+              UserDTO udto = JsonConversion.convertUserToUserJson(u);
             JSONObject obj = new JSONObject();
-            JSONObject obj1 = new JSONObject(u);
+            JSONObject obj1 = new JSONObject(udto);
             obj.put("result", obj1);
 
             obj.put("status", successMessage);
