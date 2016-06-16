@@ -63,24 +63,24 @@ public class TripService {
     }
 
     @POST
-    public String upload(@FormParam("image") String img, @FormParam("userId") int userId, @FormParam("fileExt") String fileExt) {
+    public String upload(@FormParam("image") String img, @FormParam("tripId") int tripId, @FormParam("fileExt") String fileExt) {
         byte[] arr = DatatypeConverter.parseBase64Binary(img);
         System.out.println("byte >>" + arr.length);
         JSONObject obj = new JSONObject();
         obj.put("result", "done");
         try {
-            writeToFile(arr, fileExt, userId);
+            writeToFile(arr, fileExt, tripId);
         } catch (IOException ex) {
             Logger.getLogger(ProfilePictureService.class.getName()).log(Level.SEVERE, null, ex);
         }
         return obj.toString();
     }
 
-    private void writeToFile(byte[] array, String ext, int userId) throws IOException {
-        String image = "/Users/yoka/desktop/Uploaded/pic" + userId + "." + ext;
+    private void writeToFile(byte[] array, String ext, int tripId) throws IOException {
+        String image = "/Users/yoka/desktop/Uploaded/pic" + tripId + "." + ext;
         try (FileOutputStream fileOuputStream = new FileOutputStream(image)) {
             fileOuputStream.write(array);
         }
-        handler.insertPictureToUserAccount(image, userId);
+        handler.insertImageToTrip(image, tripId);
     }
 }
