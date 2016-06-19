@@ -26,7 +26,7 @@ import webServicesHandlers.Handler;
  *
  * @author yoka
  */
-@Path("/tripService")
+@Path("/trip")
 public class TripService {
 
     final String errorMessage = "error";
@@ -77,7 +77,7 @@ public class TripService {
     }
 
     private void writeToFile(byte[] array, String ext, int tripId) throws IOException {
-        String image = "/Users/yoka/desktop/Uploaded/pic" + tripId + "." + ext;
+        String image = "/Users/yoka/desktop/Uploaded/Trips/pic" + tripId + "." + ext;
         try (FileOutputStream fileOuputStream = new FileOutputStream(image)) {
             fileOuputStream.write(array);
         }
