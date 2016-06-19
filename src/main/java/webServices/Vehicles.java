@@ -55,13 +55,13 @@ public class Vehicles {
             }
             JSONObject obj1 = new JSONObject(mkresult);
             JSONObject obj = new JSONObject();
-            obj.append("result", mkresult);
-            obj.append("status", "success");
+            obj.put("result", mkresult);
+            obj.put("status", "success");
             return obj.toString();
         } else {
             JSONObject obj = new JSONObject();
-            obj.append("code", "400");
-            obj.append("msg", "no supported trims");
+            obj.put("msg", "no supported makes");
+            obj.put("status", "error");
             return obj.toString();
         }
     }
@@ -81,13 +81,13 @@ public class Vehicles {
             }
             JSONObject obj1 = new JSONObject(mkresult);
             JSONObject obj = new JSONObject();
-            obj.append("result", mkresult);
-            obj.append("status", "success");
+            obj.put("result", mkresult);
+            obj.put("status", "success");
             return obj.toString();
         } else {
-            JSONObject obj = new JSONObject();
-            obj.append("code", "400");
-            obj.append("msg", "no supported models");
+           JSONObject obj = new JSONObject();
+            obj.put("msg", "no supported models");
+            obj.put("status", "error");
             return obj.toString();
         }
     }
@@ -106,13 +106,13 @@ public class Vehicles {
             }
             JSONObject obj1 = new JSONObject(trimresult);
             JSONObject obj = new JSONObject();
-            obj.append("result", trimresult);
-            obj.append("status", "success");
+            obj.put("result", trimresult);
+            obj.put("status", "success");
             return obj.toString();
         } else {
-            JSONObject obj = new JSONObject();
-            obj.append("code", "400");
-            obj.append("msg", "no supported trims");
+           JSONObject obj = new JSONObject();
+            obj.put("msg", "no supported trims");
+            obj.put("status", "error");
             return obj.toString();
         }
     }
@@ -136,9 +136,9 @@ public class Vehicles {
             return obj.toString();
 
         } else {
-            JSONObject obj = new JSONObject();
-            obj.append("code", "400");
-            obj.append("msg", "no supported years");
+           JSONObject obj = new JSONObject();
+            obj.put("msg", "no supported years");
+            obj.put("status", "error");
             return obj.toString();
         }
     }
@@ -158,7 +158,7 @@ public class Vehicles {
             return obj.toString();
         } else {
             JSONObject obj = new JSONObject();
-            obj.append("status", "error");
+            obj.put("status", "error");
             return obj.toString();
         }
 
