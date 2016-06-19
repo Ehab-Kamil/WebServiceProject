@@ -41,7 +41,8 @@ public class TripService {
     @GET
     @Produces("application/json")
     public String addTrip(@QueryParam("vehicleId") int vehicleId,
-            @QueryParam("initialOdemeter") int initialOdemeter, @QueryParam("coveredMilage") int coveredMilage) {
+            @QueryParam("initialOdemeter") int initialOdemeter,
+            @QueryParam("coveredMilage") int coveredMilage) {
         Trips trips = handler.addTrip(initialOdemeter, coveredMilage, vehicleId);
         JSONObject obj = new JSONObject();
         JSONObject obj1 = new JSONObject(trips);
@@ -53,7 +54,9 @@ public class TripService {
     @GET
     @Produces("application/json")
     public String addCoordinates(@QueryParam("vehicleId") int vehicleId,
-            @QueryParam("longitude") float longitude, @QueryParam("latitude") float latitude, @QueryParam("tripId") int tripId) {
+            @QueryParam("longitude") float longitude,
+            @QueryParam("latitude") float latitude, 
+            @QueryParam("tripId") int tripId) {
         Coordinates coordinates = handler.addCoordinatesToTrip(longitude, latitude, tripId);
         JSONObject obj = new JSONObject();
         JSONObject obj1 = new JSONObject(coordinates);
