@@ -34,10 +34,11 @@ public class DeviceService {
         h = new Handler();
         gson = new Gson();
     }
-
-    @POST
+    
+    @Path("/register")
+    @GET
     @Produces("application/json")
-    public String addDevice(@FormParam("userId") int userId, @FormParam("token") String token) {
+    public String addDevice(@QueryParam("userId") int userId, @QueryParam("token") String token) {
 
         if (h.addDevice(userId, token)) {
             JSONObject obj = new JSONObject();
