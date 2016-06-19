@@ -35,7 +35,7 @@ public class DeviceService {
         gson = new Gson();
     }
     
-    @Path("/register")
+    @Path("/add")
     @GET
     @Produces("application/json")
     public String addDevice(@QueryParam("userId") int userId, @QueryParam("token") String token) {
@@ -52,7 +52,7 @@ public class DeviceService {
             return obj.toString();
         }
     }
-
+@Path("/getDevices")
     @GET
     @Produces("application/json")
     public String getDevices(@QueryParam("userId") int userId) {
