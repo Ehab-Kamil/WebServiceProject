@@ -5,11 +5,11 @@
  */
 package webServices;
 
+import Utils.TripDTO;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.json.JsonArray;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -44,10 +44,14 @@ public class TripService {
             @QueryParam("initialOdemeter") int initialOdemeter,
             @QueryParam("coveredMilage") int coveredMilage) {
         Trips trips = handler.addTrip(initialOdemeter, coveredMilage, vehicleId);
-        JSONObject obj = new JSONObject();
-        JSONObject obj1 = new JSONObject(trips);
-        obj.append("result", obj1);
-        obj.append("status", successMessage);
+        TripDTO tripDTO=JsonConversion.convertToTripJson(trips);
+       JSONObject obj = new JSONObject();
+        if(trips!=null)
+        {JSONObject obj1 = new JSONObject(tripDTO);
+        obj.put("result", obj1);
+        obj.put("status", successMessage);
+        } else{
+                obj.put("status", errorMessage);}
         return obj.toString();
     }
     @Path("/addCoordinates")
@@ -59,9 +63,14 @@ public class TripService {
             @QueryParam("tripId") int tripId) {
         Coordinates coordinates = handler.addCoordinatesToTrip(longitude, latitude, tripId);
         JSONObject obj = new JSONObject();
-        JSONObject obj1 = new JSONObject(coordinates);
-        obj.append("result", obj1);
-        obj.append("status", successMessage);
+        if(coordinates!=null)
+        { JSONObject obj1 = new JSONObject(coordinates);
+        obj.put("result", obj1);
+        obj.put("status", successMessage);
+        }
+        else{
+        obj.put("status", errorMessage);
+        }
         return obj.toString();
     }
 

@@ -147,20 +147,30 @@ public class Vehicles {
     @Produces("application/json")
 @Path("/add")
     public String addVehicle(@QueryParam("model") String model, @QueryParam("year") String year,
-            @QueryParam("trim") String trim, @QueryParam("userId") int uId, @QueryParam("carName") String carName, @QueryParam("intialOdemeter") int intialOdemeter) {
-        Vehicle v = handler.addVehicle(model, year, trim, uId, carName, intialOdemeter);
+            @QueryParam("trim") String trim, @QueryParam("userId") int uId, @QueryParam("carName") String carName,
+            @QueryParam("intialOdemeter") int intialOdemeter,@QueryParam("licencePlate")String licencePlate) {
+      if(!handler.lPlateisExists(licencePlate))
+      {  Vehicle v = handler.addVehicle(model, year, trim, uId, carName, intialOdemeter,licencePlate);
         if (v != null) {
            VehicleDTO vdto= JsonConversion.convertVehicleToVehicleJson(v,1);
             JSONObject obj = new JSONObject();
             JSONObject obj1 = new JSONObject(vdto);
-            obj.append("vehicle", obj1);
-            obj.append("status", "success");
+            obj.put("result", obj1);
+            obj.put("status", "success");
             return obj.toString();
         } else {
             JSONObject obj = new JSONObject();
+            obj.put("result", "error");
             obj.put("status", "error");
             return obj.toString();
         }
+      }
+      else{
+       JSONObject obj = new JSONObject();
+            obj.put("result", "licence plate entered before");
+       obj.put("status", "error");
+            return obj.toString();
+      }
 
     }
 

@@ -276,4 +276,44 @@ public class JsonConversion {
         return serviceProvidersDTOs;
     }
 
+    static TrackingDataDTO convertToTrackingData(TrackingData trackingData) {
+       TrackingDataDTO trackingDataDTO=new TrackingDataDTO();
+       trackingDataDTO.setDateAdded(trackingData.getDateAdded());
+       trackingDataDTO.setDateModified(trackingData.getDateModified());
+       trackingDataDTO.setId(trackingData.getId());
+       trackingDataDTO.setIntialOdemeter(trackingData.getIntialOdemeter());
+       TypeDTO typedto=new TypeDTO();
+       typedto.setId(trackingData.getType().getId());
+       typedto.setName(trackingData.getType().getName());
+       MeasuringUnitDTO measuringUnitDto=new MeasuringUnitDTO();
+       measuringUnitDto.setId(trackingData.getType().getMeasuringUnit().getId());
+       measuringUnitDto.setName(trackingData.getType().getMeasuringUnit().getName());
+       measuringUnitDto.setSuffix(trackingData.getType().getMeasuringUnit().getSuffix());
+       typedto.setMeasuringUnit(measuringUnitDto);
+       ServiceDTO serviceDto=new ServiceDTO();
+       serviceDto.setId(trackingData.getType().getService().getId());
+       serviceDto.setName(trackingData.getType().getService().getName());
+       typedto.setService(serviceDto);
+       trackingDataDTO.setType(typedto);
+       trackingDataDTO.setValue(trackingData.getValue());
+       return trackingDataDTO;
+    }
+
+    static TripDTO convertToTripJson(Trips trip) {
+     TripDTO tripDTO = new TripDTO();
+                tripDTO.setId(trip.getId());
+                tripDTO.setIntialOdemeter(trip.getIntialOdemeter());
+                tripDTO.setCoveredMilage(trip.getCoveredMilage());
+                List<CoordinatesDTO> coordinatesDTO = new ArrayList<>();
+                List<Coordinates> coors = new ArrayList<>(trip.getCoordinateses());
+                for (Coordinates coor : coors) {
+                    CoordinatesDTO cdto = new CoordinatesDTO();
+                    cdto.setId(coor.getId());
+                    cdto.setLatitude(coor.getLatitude());
+                    cdto.setLongitude(coor.getLongitude());
+                    coordinatesDTO.add(cdto);
+                }
+                tripDTO.setCoordinates(coordinatesDTO);   
+                return tripDTO;
+    }
 }
