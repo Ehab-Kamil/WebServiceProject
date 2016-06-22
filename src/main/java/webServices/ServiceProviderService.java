@@ -52,7 +52,7 @@ public class ServiceProviderService {
         List<ServiceProvider> list = handler.getServiceProviderBranches(serviceProviderId);
         JSONObject obj = new JSONObject();
         List<ServiceProviderDTO> dTOs = JsonConversion.convertToServiceProviderJson(list);
-        if (dTOs.size() > 0) {
+        if (list.size() > 0) {
             obj.put("result", dTOs);
             obj.put("status", "success");
         } else {

@@ -7,6 +7,7 @@ package webServices;
 
 import Utils.AddressDTO;
 import Utils.CoordinatesDTO;
+import Utils.DayDTO;
 import Utils.MakeDTO;
 import Utils.MeasuringUnitDTO;
 import Utils.ModelDTO;
@@ -19,6 +20,7 @@ import Utils.TrackingDataDTO;
 import Utils.TrimDTO;
 import Utils.TripDTO;
 import Utils.TypeDTO;
+import Utils.Typedt;
 import Utils.UserDTO;
 import Utils.VehicleDTO;
 import Utils.VehicleModelDTO;
@@ -241,8 +243,10 @@ public class JsonConversion {
             if (calendarList.size() > 0) {
                 for (ServiceProviderCalendar calendar : calendarList) {
                     ServiceProviderCalendarDTO calendarDTO = new ServiceProviderCalendarDTO();
-                    calendarDTO.setDaysId(calendar.getDays().getId());
-                    calendarDTO.setDaysName(calendar.getDays().getName());
+                    DayDTO dayDTO=new DayDTO();
+                    dayDTO.setDayId(calendar.getDays().getId());
+                    dayDTO.setDayName(calendar.getDays().getName());
+                    calendarDTO.setDayDTO(dayDTO);
                     calendarDTO.setEndingHour(calendar.getEndingHour());
                     calendarDTO.setId(calendar.getId());
                     calendarDTO.setStartingHour(calendar.getStartingHour());
@@ -265,6 +269,20 @@ public class JsonConversion {
                     if (sps.getService() != null) {
                         servicedto.setId(sps.getService().getId());
                         servicedto.setName(sps.getService().getName());
+                    List<Type> types=new ArrayList<>(sps.getService().getTypes());
+                     List<Typedt> typesdto=new ArrayList<>();
+                      
+                    for(Type t:types)
+                        { Typedt type=new Typedt();
+                        type.setId(t.getId());
+                        type.setName(t.getName());
+                     MeasuringUnitDTO measuringUnit=new MeasuringUnitDTO();
+                     measuringUnit.setId(t.getMeasuringUnit().getId());
+                     measuringUnit.setName(t.getMeasuringUnit().getName());
+                     measuringUnit.setSuffix(t.getMeasuringUnit().getSuffix());
+                      type.setMeasuringUnit(measuringUnit);
+                      typesdto.add(type);
+                        }  servicedto.setTrackingType(typesdto);
                     }
                     spsDTO.setService(servicedto);
                     spsdtos.add(spsDTO);

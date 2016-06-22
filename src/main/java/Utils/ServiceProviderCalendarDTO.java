@@ -15,9 +15,7 @@ public class ServiceProviderCalendarDTO {
     private Integer id;
      private Date startingHour;
      private Date endingHour;
-      private Integer daysId;
-     private String daysName;
-
+     private DayDTO day;
     public Integer getId() {
         return id;
     }
@@ -42,19 +40,12 @@ public class ServiceProviderCalendarDTO {
         this.endingHour = endingHour;
     }
 
-    public Integer getDaysId() {
-        return daysId;
+    public DayDTO getDayDTO() {
+        return day;
     }
 
-    public void setDaysId(Integer daysId) {
-        this.daysId = daysId;
+    public void setDayDTO(DayDTO dayDTO) {
+        this.day = dayDTO;
     }
 
-    public String getDaysName() {
-        return daysName;
-    }
-
-    public void setDaysName(String daysName) {
-        this.daysName = daysName;
-    }
 }
