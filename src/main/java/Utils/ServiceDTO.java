@@ -5,6 +5,8 @@
  */
 package Utils;
 
+import java.util.List;
+
 /**
  *
  * @author yoka
@@ -12,7 +14,8 @@ package Utils;
 public class ServiceDTO {
     private int id;
     private String name;
-
+    private List<Typedt> trackingType;
+    
     public int getId() {
         return id;
     }
@@ -28,4 +31,14 @@ public class ServiceDTO {
     public void setName(String name) {
         this.name = name;
     }
+
+    public void setTrackingType(List<Typedt> trackingType) {
+        this.trackingType = trackingType;
+    }
+
+    public List<Typedt> getTrackingType() {
+        return trackingType;
+    }
+
+    
 }
