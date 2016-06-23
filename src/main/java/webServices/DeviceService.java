@@ -6,6 +6,7 @@
 package webServices;
 
 import com.google.gson.Gson;
+import facadePkg.DataLayer;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ws.rs.FormParam;
@@ -14,6 +15,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import pojo.Device;
 import webServicesHandlers.Handler;
@@ -52,22 +54,28 @@ public class DeviceService {
             return obj.toString();
         }
     }
-@Path("/getDevices")
+@Path("/get")
     @GET
     @Produces("application/json")
-    public String getDevices(@QueryParam("userId") int userId) {
-        List<Device> lst = h.getDeviceByUser(userId);
+    public String getDevices() {
+        DataLayer dataLayer=new DataLayer();
+        List<Device> lst= dataLayer.getAllDevices();
+       
         if (lst.size() > 0) {
             List<Device> deviceResult = new ArrayList<>();
+            JSONObject obj = new JSONObject();
             for (int i = 0; i < lst.size(); i++) {
                 Device d = lst.get(i);
                 d.setUser(null);
                 deviceResult.add(d);
-            }
-            JSONObject obj = new JSONObject();
-            JSONObject obj1 = new JSONObject(deviceResult);
+               JSONObject obj1 = new JSONObject(deviceResult.get(i));
             
-            obj.put("result", obj1);
+            obj.append("result", obj1); 
+            }
+           
+           // JSONObject obj1 = new JSONObject(deviceResult);
+            
+          //  obj.put("result", obj1);
             obj.put("status", successMessage);
             return obj.toString();
         } else {
@@ -77,5 +85,6 @@ public class DeviceService {
             return obj.toString();
         }
     }
+    
 
 }
