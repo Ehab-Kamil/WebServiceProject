@@ -5,14 +5,13 @@
  */
 package webServices;
 
-
-import com.sun.tools.internal.xjc.util.Util;
-import dao.UserDao;
-import java.util.List;
+import javax.ws.rs.GET;
 import javax.ws.rs.Path;
-import org.aspectj.weaver.Utils;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import org.json.JSONObject;
 
-import pojo.User;
+import webServicesHandlers.Handler;
 
 /**
  *
@@ -20,28 +19,17 @@ import pojo.User;
  */
 @Path("/forget")
 public class ForgetPasswordService {
-//   UserDao dao=new UserDao();
-//    boolean checkEmail(String email)
-//    { 
-//        User u=new User();
-//        u.setEmail(email);
-//    List<User> up = dao.findByExample(u);
-//        if(up!=null) {
-//            // create verification code
-//            String hash = Utils.prepareRandomString(30);
-//            // update verification code in database 
-//            UserDAO.updateEmailVerificationHashForResetPassword(inputEmail, BCrypt.hashpw(hash,GlobalConstants.SALT));
-//            // send email to user with verification link
-//            MailUtil.sendResetPasswordLink(up.getUSER_ID()+"", inputEmail, hash);
-//            sp.setCode(0);
-//            sp.setMessage("We have sent reset password link to your email");
-//        } else {
-//            sp.setCode(-1);
-//            sp.setMessage("This email doesn't exist");
-//        }
-//    } catch (DBException | MessagingException e) {
-//        LOGGER.debug(e.getMessage());
-//        sp.setCode(-1);
-//        sp.setMessage(e.getMessage());
-//    }
+
+    final String errorMessage = "error";
+    final String successMessage = "success";
+
+    @GET
+    @Produces("application/json")
+    public void updateUserPassword(@QueryParam("email") String email, @QueryParam("password") String password) {
+        Handler handler = new Handler();
+        if (handler.updateUserPassword(email, password)) {
+            JSONObject obj = new JSONObject();
+            obj.append("status", successMessage);
+        }
+    }
 }
